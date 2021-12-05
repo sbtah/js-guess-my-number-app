@@ -1,8 +1,12 @@
 "use strict";
 
+function calcRandom() {
+	return Math.trunc(Math.random() * 20) + 1;
+}
+
 let score = 20;
 let highScore = 0;
-let secretNumber = Math.trunc(Math.random() * 20) + 1;
+let secretNumber = calcRandom();
 const mesageElem = document.querySelector(".message");
 const numberElem = document.querySelector(".number");
 const scoreElem = document.querySelector(".score");
@@ -25,14 +29,13 @@ btnCheck.addEventListener("click", function () {
 			numberElem.textContent = secretNumber;
 			bodyElem.style.backgroundColor = "#60b347";
 			numberElem.style.width = "30rem";
-			highScore += score;
-			highScoreElem.textContent = highScore;
-		} else if (guess < secretNumber) {
-			mesageElem.textContent = "Guess higher!";
-			score -= 1;
-			scoreElem.textContent = score;
-		} else if (guess > secretNumber) {
-			mesageElem.textContent = "Guess lower!";
+			if (score > highScore) {
+				highScore = score;
+				highScoreElem.textContent = highScore;
+			}
+		} else if (guess !== secretNumber) {
+			mesageElem.textContent =
+				guess > secretNumber ? "Guess lower!" : "Guess higher!";
 			score -= 1;
 			scoreElem.textContent = score;
 		}
@@ -43,7 +46,7 @@ btnCheck.addEventListener("click", function () {
 });
 
 btnAgain.addEventListener("click", function () {
-	secretNumber = Math.trunc(Math.random() * 20) + 1;
+	secretNumber = calcRandom();
 	score = 20;
 	bodyElem.style.backgroundColor = "#222";
 	numberElem.style.width = "15rem";
